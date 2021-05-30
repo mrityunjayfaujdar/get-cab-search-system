@@ -32,12 +32,13 @@ router.post("/available_cabs", async function (req, res, next) {
             }
         }
 
-        let resultArray = cabsAvailable.flat();
         if (!resultArray.length) {
             return res.status(200).json({
                 message: "No cabs available!",
             });
         }
+
+        let resultArray = cabsAvailable.flat();
         return res.status(200).json({available_cabs: resultArray});
     } catch (err) {
         console.error(err.message);

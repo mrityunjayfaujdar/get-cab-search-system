@@ -20,7 +20,6 @@ router.post("/register", async function (req, res, next) {
 
 router.post("/:_id/sendLocation", async function (req, res, next) {
     try {
-        console.log("req.params._id", req.params._id);
         //console.log("ID - ", req.params._id);
         if (req.params._id) {
             const {latitude, longitude} = req.body;

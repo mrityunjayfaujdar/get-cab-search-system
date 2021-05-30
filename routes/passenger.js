@@ -13,7 +13,6 @@ router.post("/available_cabs", async function (req, res, next) {
                 reason: "Latitude/Longitude Missing",
             });
         }
-
         let cabLocations = await Location.find({});
         var cabsAvailable = [];
         for (var i = 0; i < cabLocations.length; i++) {
@@ -28,11 +27,13 @@ router.post("/available_cabs", async function (req, res, next) {
                     {id: cabLocations[i].driver},
                     "name car_number phone_number -_id"
                 );
-                cabsAvailable.push(cabAround);
+                if (cabAround) {
+                    cabsAvailable.push(cabAround);
+                }
             }
         }
 
-        if (!resultArray.length) {
+        if (!cabsAvailable.length) {
             return res.status(200).json({
                 message: "No cabs available!",
             });

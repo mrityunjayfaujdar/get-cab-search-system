@@ -13,6 +13,7 @@ router.post("/available_cabs", async function (req, res, next) {
                 reason: "Latitude/Longitude Missing",
             });
         }
+
         let cabLocations = await Location.find({});
         var cabsAvailable = [];
         for (var i = 0; i < cabLocations.length; i++) {
@@ -39,9 +40,7 @@ router.post("/available_cabs", async function (req, res, next) {
             });
         }
 
-        // let resultArray = cabsAvailable.flat();
         var resultArray = [].concat.apply([], cabsAvailable);
-        console.log(resultArray);
         return res.status(200).json({available_cabs: resultArray});
     } catch (err) {
         console.error(err.message);

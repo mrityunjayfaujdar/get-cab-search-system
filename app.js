@@ -8,6 +8,8 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
+
+//Connect to In-Memory MongoDB
 connect();
 
 // view engine setup

@@ -6,12 +6,12 @@ const Location = require("../models/location");
 
 router.post("/register", async function (req, res, next) {
     try {
+        //Generated a random ID and assign it to the Driver
         let driver = await Driver.create({
             id: Math.floor(Math.random() * 10000),
             ...req.body,
         });
 
-        // - ID to Integer, remove __V attribute
         res.status(201).json(driver);
     } catch (err) {
         return res.status(400).json({status: "failure", reason: "Bad Request"});
@@ -20,7 +20,7 @@ router.post("/register", async function (req, res, next) {
 
 router.post("/:_id/sendLocation", async function (req, res, next) {
     try {
-        //console.log("ID - ", req.params._id);
+        //Update Cab Drivers Location (latitude,longitude)
         if (req.params._id) {
             const {latitude, longitude} = req.body;
             var location = await Location.create({

@@ -39,7 +39,9 @@ router.post("/available_cabs", async function (req, res, next) {
             });
         }
 
-        let resultArray = cabsAvailable.flat();
+        // let resultArray = cabsAvailable.flat();
+        var resultArray = [].concat.apply([], cabsAvailable);
+        console.log(resultArray);
         return res.status(200).json({available_cabs: resultArray});
     } catch (err) {
         console.error(err.message);

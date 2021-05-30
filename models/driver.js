@@ -27,6 +27,10 @@ const DriverSchema = mongoose.Schema({
         required: true,
         unique: true,
     },
+    id: {
+        type: Number,
+        unique: true,
+    },
 });
 
 const Driver = mongoose.model("Driver", DriverSchema);

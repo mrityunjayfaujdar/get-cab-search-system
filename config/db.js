@@ -12,21 +12,23 @@ module.exports.connect = async () => {
         reconnectInterval: 1000,
     };
     await mongoose.connect(uri, mongooseOpts);
-    console.log("Mongo DB Connected- In Memory");
+    console.log("In Memory - Mongo DB Connected");
 
     //************************************************************************** */
     // Uncomment the following code to connect to MongoDB
     //************************************************************************** */
-    // //connect to actual database
-    // const databaseURL = "mongodb://localhost/skaud";
-    // try {
-    //     await mongoose.connect(databaseURL, {
-    //         useNewUrlParser: true,
-    //         useUnifiedTopology: true,
-    //     });
-    //     console.log("MongoDB Connected...");
-    // } catch (err) {
-    //     console.error(err.message);
-    //     process.exit(1);
-    // }
+    //connect to actual database
+    /*
+    const databaseURL = "mongodb://localhost/skaud";
+    try {
+        await mongoose.connect(databaseURL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("Real MongoDB Connected...");
+    } catch (err) {
+        console.error(err.message);
+        process.exit(1);
+    }
+   */
 };

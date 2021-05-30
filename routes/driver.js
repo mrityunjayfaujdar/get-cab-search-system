@@ -6,7 +6,11 @@ const Location = require("../models/location");
 
 router.post("/register", async function (req, res, next) {
     try {
-        let driver = await Driver.create(req.body);
+        let driver = await Driver.create({
+            id: Math.floor(Math.random() * 10000),
+            ...req.body,
+        });
+
         // - ID to Integer, remove __V attribute
         res.status(201).json(driver);
     } catch (err) {
@@ -16,6 +20,7 @@ router.post("/register", async function (req, res, next) {
 
 router.post("/:_id/sendLocation", async function (req, res, next) {
     try {
+        console.log("req.params._id", req.params._id);
         //console.log("ID - ", req.params._id);
         if (req.params._id) {
             const {latitude, longitude} = req.body;

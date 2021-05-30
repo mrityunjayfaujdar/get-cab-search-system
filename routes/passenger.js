@@ -24,19 +24,21 @@ router.post("/available_cabs", async function (req, res, next) {
                 cabLocations[i].longitude
             );
             if (distance <= 4) {
-                let cabAround = await Driver.findById(
-                    cabLocations[i].driver,
+                let cabAround = await Driver.find(
+                    {id: cabLocations[i].driver},
                     "name car_number phone_number -_id"
                 );
                 cabsAvailable.push(cabAround);
             }
         }
-        if (!cabsAvailable.length) {
-            cabsAvailable.push({message: "No cabs available!"});
-        }
 
-        console.log(cabsAvailable);
-        return res.status(200).json(cabsAvailable);
+        let resultArray = cabsAvailable.flat();
+        if (!resultArray.length) {
+            return res.status(200).json({
+                message: "No cabs available!",
+            });
+        }
+        return res.status(200).json({available_cabs: resultArray});
     } catch (err) {
         console.error(err.message);
         res.status(400).json({

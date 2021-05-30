@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 
 const locationSchema = mongoose.Schema({
     driver: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Driver",
+        type: String,
     },
 
     latitude: {

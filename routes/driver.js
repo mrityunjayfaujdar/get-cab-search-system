@@ -7,9 +7,6 @@ const Location = require("../models/location");
 router.post("/register", async function (req, res, next) {
     try {
         let driver = await Driver.create(req.body);
-        if (!driver) {
-            return res.status(400);
-        }
         // - ID to Integer, remove __V attribute
         res.status(201).json(driver);
     } catch (err) {
@@ -17,15 +14,17 @@ router.post("/register", async function (req, res, next) {
     }
 });
 
-router.post("/:id/sendLocation", async function (req, res, next) {
+router.post("/:_id/sendLocation", async function (req, res, next) {
     try {
-        if (req.params.id) {
-            var newLocObj = {
-                driver: req.params.id,
-                ...req.body,
-            };
+        //console.log("ID - ", req.params._id);
+        if (req.params._id) {
+            const {latitude, longitude} = req.body;
+            var location = await Location.create({
+                driver: req.params._id,
+                latitude,
+                longitude,
+            });
 
-            await Location.create(newLocObj);
             return res.status(202).json({status: "success"});
         }
     } catch (err) {

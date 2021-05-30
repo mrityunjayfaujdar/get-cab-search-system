@@ -3,20 +3,19 @@ var router = express.Router();
 const Location = require("../models/location");
 const Driver = require("../models/driver");
 
-router.get("/available_cabs", async function (req, res, next) {
+router.post("/available_cabs", async function (req, res, next) {
     try {
         const {latitude, longitude} = req.body;
-        console.log(req.body);
 
-        // if (!(latitudeUser && longitudeUser)) {
-        //     res.status(400).json({
-        //         status: "failure",
-        //         reason: "Latitude/Longitude Missing",
-        //     });
-        // }
+        if (!(latitude && longitude)) {
+            return res.status(400).json({
+                status: "failure",
+                reason: "Latitude/Longitude Missing",
+            });
+        }
 
         let cabLocations = await Location.find({});
-        var available_cabs = [];
+        var cabsAvailable = [];
         for (var i = 0; i < cabLocations.length; i++) {
             let distance = getDistanceFromLatLonInKm(
                 latitude,
@@ -24,22 +23,22 @@ router.get("/available_cabs", async function (req, res, next) {
                 cabLocations[i].latitude,
                 cabLocations[i].longitude
             );
-
             if (distance <= 4) {
                 let cabAround = await Driver.findById(
                     cabLocations[i].driver,
                     "name car_number phone_number -_id"
                 );
-                console.log(cabAround);
-                available_cabs.push(cabAround);
+                cabsAvailable.push(cabAround);
             }
         }
-        if (available_cabs.length == 0) {
-            available_cabs.push({message: "No cabs available!"});
+        if (!cabsAvailable.length) {
+            cabsAvailable.push({message: "No cabs available!"});
         }
 
-        res.status(200).json(available_cabs);
+        console.log(cabsAvailable);
+        return res.status(200).json(cabsAvailable);
     } catch (err) {
+        console.error(err.message);
         res.status(400).json({
             status: "failure",
             reason: "Bad Request",
